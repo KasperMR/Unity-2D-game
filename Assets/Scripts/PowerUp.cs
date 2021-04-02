@@ -54,6 +54,9 @@ public class PowerUp : MonoBehaviour
                     case 4:
                         player.GetHealth();
                         break;
+                    case 5:
+                        player.ActivateRockets();
+                        break;
                     default:
                         Debug.Log("Invalid type of power up assigned");
                         break;

@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator speedBoostCooldown;
     private IEnumerator tripleShotCooldown;
+    private IEnumerator rocketCooldown;
 
     //===========laser
 
@@ -70,6 +71,13 @@ public class Player : MonoBehaviour
     private int _shotsRemaining = 15;
     [SerializeField]
     private GameObject _laserCounter;
+
+    //=============Rockets
+    [SerializeField]
+    private GameObject _rocketPrefab;
+    private bool _rocketsEnabled = false;
+    [SerializeField]
+    private AudioSource _rocketSound;
 
     // Start is called before the first frame update
     void Start()
@@ -102,7 +110,14 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _shotsRemaining > 0)
         {
             _canFire = Time.time + _cooldown;
-            FireLaser();
+            if (_rocketsEnabled)
+            {
+                FireRocket();
+            }
+            else
+            {
+                FireLaser();
+            }
         }
         else if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _shotsRemaining <= 0)
         {
@@ -154,18 +169,27 @@ public class Player : MonoBehaviour
     {
         if (_tripleLaserActive)
         {
-            var newLaser = Instantiate(_tripleLaserPrefab);
+            GameObject newLaser = Instantiate(_tripleLaserPrefab);
             newLaser.transform.position = transform.position + Vector3.up * 0.8f;
         }
         else
         {
-            var newLaser = Instantiate(_laserPrefab);
+            GameObject newLaser = Instantiate(_laserPrefab);
             newLaser.transform.position = transform.position + Vector3.up * 0.8f;
         }
         _laserSound.PlayOneShot(_laserSound.clip);
         _shotsRemaining--;
         _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
     }
+
+    private void FireRocket()
+    {
+        GameObject newRocket = Instantiate(_rocketPrefab);
+        _rocketSound.PlayOneShot(_rocketSound.clip);
+        _shotsRemaining--;
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+    }
+
     public void TakeDamage()
     {
         if (_shielded)
@@ -241,6 +265,14 @@ public class Player : MonoBehaviour
         _speedBoosted = false;
     }
 
+    IEnumerator RocketCooldown()
+    {
+        Debug.Log("star count at: " + Time.time);
+        yield return new WaitForSeconds(5.0f);
+        Debug.Log("end count at : " + Time.time);
+        _rocketsEnabled = false;
+    }
+
 
     public void ActivateSpeedBoost()
     {
@@ -284,5 +316,18 @@ public class Player : MonoBehaviour
         _lives++;
         UpdateLivesVisual();
     }
+
+    public void ActivateRockets()
+    {
+        _rocketsEnabled = true;
+        if (rocketCooldown != null)
+        {
+            StopCoroutine(rocketCooldown);
+        }
+        rocketCooldown = RocketCooldown();
+        StartCoroutine(rocketCooldown);
+        _powerUpSound.PlayOneShot(_powerUpSound.clip);
+    }
+
 
 }

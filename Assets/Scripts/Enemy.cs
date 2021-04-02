@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DestroyAfterAnimationRoutine());
             gameObject.GetComponent<AudioSource>().Play();
             _alive = false;
+            gameObject.tag = "Untagged";
             Destroy(gameObject.GetComponent<Collider2D>());
         }
         if (other.CompareTag("Player"))
@@ -56,6 +57,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DestroyAfterAnimationRoutine());
             gameObject.GetComponent<AudioSource>().Play();
             _alive = false;
+            gameObject.tag = "Untagged";
             Destroy(gameObject.GetComponent<Collider2D>());
         }
     }

@@ -7,6 +7,7 @@ TagManager:
   - Laser
   - Canvas
   - EnemyLaser
+  - Enemy
   layers:
   - Default
   - TransparentFX
