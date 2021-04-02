@@ -6,8 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5;
-    [SerializeField]
-    private GameObject _laserPrefab;
+
     [SerializeField]
     private float _cooldown = 1f;
     [SerializeField]
@@ -58,12 +57,20 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _currentSpeedMult = 1;
 
-
+    //=============cooldown IEnumerators
 
     private IEnumerator speedBoostCooldown;
     private IEnumerator tripleShotCooldown;
 
+    //===========laser
+
+    [SerializeField]
+    private GameObject _laserPrefab;
     private float _canFire = 0f;
+    private int _shotsRemaining = 15;
+    [SerializeField]
+    private GameObject _laserCounter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,10 +99,14 @@ public class Player : MonoBehaviour
 
         Movement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _shotsRemaining > 0)
         {
             _canFire = Time.time + _cooldown;
             FireLaser();
+        }
+        else if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _shotsRemaining <= 0)
+        {
+            _laserCounter.GetComponent<LaserCounter>().OutOfAmmoAnimControl();
         }
     }
 
@@ -152,6 +163,8 @@ public class Player : MonoBehaviour
             newLaser.transform.position = transform.position + Vector3.up * 0.8f;
         }
         _laserSound.PlayOneShot(_laserSound.clip);
+        _shotsRemaining--;
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
     }
     public void TakeDamage()
     {
