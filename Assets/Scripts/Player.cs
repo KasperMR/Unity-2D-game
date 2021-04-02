@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage()
     {
+        Camera.main.GetComponent<CameraShake>().CameraShakeInit();
         if (_shielded)
         {
             _shieldLives--;
