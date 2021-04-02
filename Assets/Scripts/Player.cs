@@ -194,15 +194,9 @@ public class Player : MonoBehaviour
         }
 
         _lives += -1;
-        if (_lives - 1 >= 0)
-        {
-            if (_burningEngines[_lives - 1] != null)
-            {
-                _burningEngines[_lives - 1].SetActive(true);
-            }
-        }
 
-        uIManager.UpdateLives(_lives);
+        UpdateLivesVisual();
+
         if (_lives <= 0)
         {
             Debug.Log("player dead");
@@ -210,6 +204,27 @@ public class Player : MonoBehaviour
             _explosionSound.Play();
             Destroy(gameObject);
         }
+    }
+
+    private void UpdateLivesVisual()
+    {
+        foreach (GameObject engine in _burningEngines)
+        {
+            engine.SetActive(true);
+        }
+        for (int i = 0; i < _lives-1; i++)
+        {
+            _burningEngines[i].SetActive(false);
+        }
+        //if (_lives - 1 >= 0)
+        //{
+        //    if (_burningEngines[_lives - 1] != null)
+        //    {
+        //        _burningEngines[_lives - 1].SetActive(true);
+        //    }
+        //}
+
+        uIManager.UpdateLives(_lives);
     }
 
     IEnumerator TripleShotCooldown()
@@ -262,6 +277,12 @@ public class Player : MonoBehaviour
     {
         _shotsRemaining += 15;
         _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+    }
+
+    public void GetHealth()
+    {
+        _lives++;
+        UpdateLivesVisual();
     }
 
 }
