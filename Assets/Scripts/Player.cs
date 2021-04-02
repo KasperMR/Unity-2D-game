@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;
     private float _canFire = 0f;
     private int _shotsRemaining = 15;
+    private int _maxShots = 30;
     [SerializeField]
     private GameObject _laserCounter;
 
@@ -179,7 +180,7 @@ public class Player : MonoBehaviour
         }
         _laserSound.PlayOneShot(_laserSound.clip);
         _shotsRemaining--;
-        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining, _maxShots);
     }
 
     private void FireRocket()
@@ -187,7 +188,7 @@ public class Player : MonoBehaviour
         GameObject newRocket = Instantiate(_rocketPrefab);
         _rocketSound.PlayOneShot(_rocketSound.clip);
         _shotsRemaining--;
-        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining, _maxShots);
     }
 
     public void TakeDamage()
@@ -309,7 +310,11 @@ public class Player : MonoBehaviour
     public void GetAmmo()
     {
         _shotsRemaining += 15;
-        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+        if (_shotsRemaining > _maxShots)
+        {
+            _shotsRemaining = _maxShots;
+        }
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining, _maxShots);
     }
 
     public void GetHealth()

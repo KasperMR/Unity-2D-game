@@ -14,9 +14,10 @@ public class LaserCounter : MonoBehaviour
     {
         _ammoCount = transform.GetChild(0).GetComponent<Text>();
     }
-    public void UpdateAmmoCount(int newAmmoCount)
+    public void UpdateAmmoCount(int newAmmoCount, int maxAmmoCount)
     {
-        _ammoCount.text = newAmmoCount.ToString();
+        _ammoCount.text = newAmmoCount.ToString() + "/" + maxAmmoCount.ToString();
+        
     }
 
     public void OutOfAmmoAnimControl()
