@@ -41,6 +41,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioSource _powerUpSound;
 
+    private bool _lShiftDown = false;
+    [SerializeField]
+    private float _lShiftSpeedMult = 1.2f;
+    private float _defaultSpeedMult = 1;
+    [SerializeField]
+    private float _currentSpeedMult = 1;
+
 
 
     private IEnumerator speedBoostCooldown;
@@ -52,11 +59,27 @@ public class Player : MonoBehaviour
     {
         //reset player start position to 0,0,0
         gameObject.transform.position = Vector3.zero;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _lShiftDown = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _lShiftDown == false)
+        {
+            _lShiftDown = true;
+            _currentSpeedMult = _lShiftSpeedMult;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift) && _lShiftDown == true)
+        {
+            _lShiftDown = false;
+            _currentSpeedMult = _defaultSpeedMult;
+        }
+
+
         Movement();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
@@ -71,15 +94,15 @@ public class Player : MonoBehaviour
 
         if (_speedBoosted == false)
         {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speed);
+            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speed * _currentSpeedMult);
 
-            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speed);
+            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speed * _currentSpeedMult);
         }
         else
         {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speedBoostSpeed);
+            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speedBoostSpeed * _currentSpeedMult);
 
-            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speedBoostSpeed);
+            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speedBoostSpeed * _currentSpeedMult);
         }
 
 
@@ -133,15 +156,15 @@ public class Player : MonoBehaviour
         _lives += -1;
         if (_lives - 1 >= 0)
         {
-            if (_burningEngines[_lives-1] != null)
+            if (_burningEngines[_lives - 1] != null)
             {
-                _burningEngines[_lives-1].SetActive(true);
-            }        
+                _burningEngines[_lives - 1].SetActive(true);
+            }
         }
 
         uIManager.UpdateLives(_lives);
-        if (_lives <= 0)            
-        {            
+        if (_lives <= 0)
+        {
             Debug.Log("player dead");
             _spawnManager.StopSpawning();
             _explosionSound.Play();

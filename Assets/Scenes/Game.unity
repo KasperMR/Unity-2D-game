@@ -213,7 +213,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: a45d21c30e0154a9ca1a5d6fb2bf3cfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -525,6 +525,8 @@ MonoBehaviour:
   _laserSound: {fileID: 495353549}
   _explosionSound: {fileID: 1580773008}
   _powerUpSound: {fileID: 1074223054}
+  _lShiftSpeedMult: 2
+  _currentSpeedMult: 1
 --- !u!212 &646663351
 SpriteRenderer:
   m_ObjectHideFlags: 0
