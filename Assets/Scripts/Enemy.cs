@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FireLaser());
+        StartCoroutine(LateralMovementRoutine());
     }
 
     // Update is called once per frame
@@ -76,6 +77,35 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(_enemyLaser, transform.position, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3f, 7f));
+        }
+    }
+
+    private IEnumerator LateralMovementRoutine()
+    {
+        float lateralMovementSpeed = _speed * 2;
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            if (Random.Range(0f,1f) > 0.5f)
+            {
+                if (transform.position.x > 0)
+                {
+                    for (float t = 0; t < 1; t += Time.deltaTime)
+                    {
+                        transform.Translate(Vector3.left * lateralMovementSpeed * Time.deltaTime);
+                        yield return null;
+                    }
+                }
+                else
+                {
+                    for (float t = 0; t < 1; t += Time.deltaTime)
+                    {
+                        transform.Translate(Vector3.right * lateralMovementSpeed * Time.deltaTime);
+                        yield return null;
+                    }
+                }
+
+            }
         }
     }
 
