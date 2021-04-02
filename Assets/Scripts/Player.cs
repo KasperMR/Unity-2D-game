@@ -9,30 +9,40 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
-    private GameObject _tripleLaserPrefab;
-    [SerializeField]
     private float _cooldown = 1f;
     [SerializeField]
     private int _lives = 3;
     [SerializeField]
     private SpawnManager _spawnManager;
+    //=============================power ups
     [SerializeField]
     private bool _tripleLaserActive;
+    [SerializeField]
+    private GameObject _tripleLaserPrefab;
     [SerializeField]
     private float _speedBoostSpeed = 8.5f;
     [SerializeField]
     private bool _speedBoosted = false;
+
+    //=============================shield
+    private int _shieldLives = 0;
     [SerializeField]
     private bool _shielded = false;
 
     [SerializeField]
     private GameObject _shieldVisual;
 
+    //=============UI
+
     [SerializeField]
     private UIManager uIManager;
 
+    //==================damage visualization
+
     [SerializeField]
     private GameObject[] _burningEngines;
+
+    //=============================sounds
 
     [SerializeField]
     private AudioSource _laserSound;
@@ -147,8 +157,25 @@ public class Player : MonoBehaviour
     {
         if (_shielded)
         {
-            _shielded = false;
-            _shieldVisual.SetActive(false);
+            _shieldLives--;
+            if (_shieldLives <= 0)
+            {
+                _shielded = false;
+                _shieldVisual.SetActive(false);
+            }
+            else
+            {
+                if (_shieldLives == 2)
+                {
+                    _shieldVisual.GetComponent<SpriteRenderer>().color = new Color(0, 255, 0, 255);
+                }
+                if (_shieldLives == 1)
+                {
+                    _shieldVisual.GetComponent<SpriteRenderer>().color = new Color(255, 0, 0, 255);
+                }
+                 
+            }      
+            
             return;
 
         }
@@ -213,6 +240,7 @@ public class Player : MonoBehaviour
     public void ActivateShield()
     {
         _shielded = true;
+        _shieldLives = 3;
         _shieldVisual.SetActive(true);
         _powerUpSound.PlayOneShot(_powerUpSound.clip);
     }

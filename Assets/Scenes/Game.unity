@@ -509,11 +509,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _laserPrefab: {fileID: 9073255154344939064, guid: b9a13a86b15e45544a8a073aaaeffe8f, type: 3}
-  _tripleLaserPrefab: {fileID: 8427468169127582483, guid: ad0bfea8d0cdc56409c4c80deb075c5b, type: 3}
   _cooldown: 0.1
   _lives: 3
   _spawnManager: {fileID: 804443666}
   _tripleLaserActive: 0
+  _tripleLaserPrefab: {fileID: 8427468169127582483, guid: ad0bfea8d0cdc56409c4c80deb075c5b, type: 3}
   _speedBoostSpeed: 8.5
   _speedBoosted: 0
   _shielded: 0
