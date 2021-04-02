@@ -258,4 +258,10 @@ public class Player : MonoBehaviour
         _powerUpSound.PlayOneShot(_powerUpSound.clip);
     }
 
+    public void GetAmmo()
+    {
+        _shotsRemaining += 15;
+        _laserCounter.GetComponent<LaserCounter>().UpdateAmmoCount(_shotsRemaining);
+    }
+
 }

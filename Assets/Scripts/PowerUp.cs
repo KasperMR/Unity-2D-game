@@ -48,6 +48,9 @@ public class PowerUp : MonoBehaviour
                     case 2:
                         player.ActivateShield();
                         break;
+                    case 3:
+                        player.GetAmmo();
+                        break;
                     default:
                         Debug.Log("Invalid type of power up assigned");
                         break;
