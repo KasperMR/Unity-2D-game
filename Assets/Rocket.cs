@@ -31,8 +31,6 @@ public class Rocket : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
             transform.up = target.transform.position - transform.position;
-
-            //transform.LookAt(target.transform.position);
         }
         else
         {

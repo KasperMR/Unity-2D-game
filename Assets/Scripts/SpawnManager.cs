@@ -7,12 +7,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemy;
     [SerializeField]
-    private float _spawnCooldown = 5;
+    private float _spawnCooldown = 1;
     [HideInInspector]
     public float thisIsHiddenInInspector;
     [SerializeField]
     private GameObject _enemyContainer;
-    private bool spawning = true;
+    private bool _spawning = true;
+    private int _waveSize = 5;
+    [SerializeField]
+    private float _timeBetweenWaves = 5;
 
     [SerializeField]
     private GameObject[] _powerUpPrefab;
@@ -41,22 +44,31 @@ public class SpawnManager : MonoBehaviour
 
     public void StopSpawning() 
     {
-        spawning = false;
+        _spawning = false;
     }
 
     private IEnumerator SpawnEnemy()
-    {        
-        while (spawning)
-        {            
-            GameObject newEnemy = Instantiate(_enemy, new Vector3(Random.Range(-9f, 9f), 7.25f, 0),Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-            yield return new WaitForSeconds(_spawnCooldown);
-        }        
+    {
+        while (_spawning)
+        {
+            GameObject[] waveArray = new GameObject[_waveSize];
+            GenerateNewWave(_waveSize, waveArray);
+            int i = 0;
+            while (i < _waveSize)
+            {            
+                GameObject newEnemy = Instantiate(waveArray[i], new Vector3(Random.Range(-9f, 9f), 7.25f, 0), Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+                i++;
+                yield return new WaitForSeconds(_spawnCooldown);
+            }
+            _waveSize = (_waveSize + (int)((float)_waveSize*1.5));
+            yield return new WaitForSeconds(_timeBetweenWaves);
+        }
     } 
 
     private IEnumerator SpawnPowerUp()
     {
-        while (spawning)
+        while (_spawning)
         {
             int randomPowerUp = Random.Range(0, _powerUpPrefab.Length);
             GameObject newPowerUp;
@@ -77,6 +89,14 @@ public class SpawnManager : MonoBehaviour
             }
             newPowerUp.transform.parent = _powerUpContainer.transform;
             yield return new WaitForSeconds(Random.Range(3f, 7f));
+        }
+    }
+
+    private void GenerateNewWave(int waveSize, GameObject[] waveArray)
+    {
+        for (int i = 0; i < waveSize; i++)
+        {
+            waveArray[i] = _enemy;
         }
     }
 }
