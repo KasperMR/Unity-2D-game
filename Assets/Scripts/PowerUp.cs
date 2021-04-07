@@ -57,6 +57,9 @@ public class PowerUp : MonoBehaviour
                     case 5:
                         player.ActivateRockets();
                         break;
+                    case 6:
+                        player.ActivateSnailMode();
+                        break;
                     default:
                         Debug.Log("Invalid type of power up assigned");
                         break;

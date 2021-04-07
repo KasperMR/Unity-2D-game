@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 5;
+
 
     [SerializeField]
     private float _cooldown = 1f;
@@ -19,7 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleLaserPrefab;
     [SerializeField]
-    private float _speedBoostSpeed = 8.5f;
+    private float _speedBoostSpeedMult = 8.5f;
     [SerializeField]
     private bool _speedBoosted = false;
 
@@ -49,19 +48,26 @@ public class Player : MonoBehaviour
     private AudioSource _explosionSound;
     [SerializeField]
     private AudioSource _powerUpSound;
+    [SerializeField]
+    private AudioSource _powerDownSound;
 
+    //==========================speed
+
+    [SerializeField]
+    private float _BaseSpeed = 5;
     private bool _lShiftDown = false;
     [SerializeField]
     private float _lShiftSpeedMult = 1.2f;
-    private float _defaultSpeedMult = 1;
     [SerializeField]
-    private float _currentSpeedMult = 1;
+    private float _snailSpeedMult = 0.75f;
+    private bool _snailMode = false;
 
     //=============cooldown IEnumerators
 
     private IEnumerator speedBoostCooldown;
     private IEnumerator tripleShotCooldown;
     private IEnumerator rocketCooldown;
+    private IEnumerator snailCooldown;
 
     //===========laser
 
@@ -97,12 +103,10 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && _lShiftDown == false)
         {
             _lShiftDown = true;
-            _currentSpeedMult = _lShiftSpeedMult;
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift) && _lShiftDown == true)
         {
             _lShiftDown = false;
-            _currentSpeedMult = _defaultSpeedMult;
         }
 
 
@@ -129,19 +133,10 @@ public class Player : MonoBehaviour
     private void Movement()
     {
 
-        if (_speedBoosted == false)
-        {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speed * _currentSpeedMult);
+        transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _BaseSpeed * GetSpeedBoostedSpeed() * GetLShiftSpeed() * GetSnailSpeed());
 
-            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speed * _currentSpeedMult);
-        }
-        else
-        {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * _speedBoostSpeed * _currentSpeedMult);
-
-            transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _speedBoostSpeed * _currentSpeedMult);
-        }
-
+        transform.Translate(Vector3.up * Input.GetAxis("Vertical") * Time.deltaTime * _BaseSpeed * GetSpeedBoostedSpeed() * GetLShiftSpeed() * GetSnailSpeed());
+        //Debug.Log("total speed: " + _BaseSpeed * GetSpeedBoostedSpeed() * GetLShiftSpeed() * GetSnailSpeed());
 
         //stop the player going below the screen
         //if position y < -3.5
@@ -163,6 +158,42 @@ public class Player : MonoBehaviour
         {
             pos.x = pos.x * -1;
             transform.position = pos;
+        }
+    }
+
+    private float GetSpeedBoostedSpeed()
+    {
+        if (_speedBoosted == true)
+        {
+            return _speedBoostSpeedMult;
+        }
+        else
+        {
+            return 1f;
+        }
+    }
+
+    private float GetLShiftSpeed()
+    {
+        if (_lShiftDown == true)
+        {
+            return _lShiftSpeedMult;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    private float GetSnailSpeed()
+    {
+        if (_snailMode == true)
+        {
+            return _snailSpeedMult;
+        }
+        else
+        {
+            return 1;
         }
     }
 
@@ -261,18 +292,20 @@ public class Player : MonoBehaviour
 
     IEnumerator SpeedBoostCooldown()
     {
-        Debug.Log("star count at: " + Time.time);
         yield return new WaitForSeconds(5.0f);
-        Debug.Log("end count at : " + Time.time);
         _speedBoosted = false;
     }
 
     IEnumerator RocketCooldown()
     {
-        Debug.Log("star count at: " + Time.time);
         yield return new WaitForSeconds(5.0f);
-        Debug.Log("end count at : " + Time.time);
         _rocketsEnabled = false;
+    }
+
+    IEnumerator SnailModeCooldown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _snailMode = false;
     }
 
 
@@ -319,8 +352,11 @@ public class Player : MonoBehaviour
 
     public void GetHealth()
     {
-        _lives++;
-        UpdateLivesVisual();
+        if (_lives < 3)
+        {
+            _lives++;
+            UpdateLivesVisual();
+        }
     }
 
     public void ActivateRockets()
@@ -335,5 +371,15 @@ public class Player : MonoBehaviour
         _powerUpSound.PlayOneShot(_powerUpSound.clip);
     }
 
-
+    public void ActivateSnailMode()
+    {
+        _snailMode = true;
+        if (snailCooldown != null)
+        {
+            StopCoroutine(snailCooldown);
+        }
+        snailCooldown = SnailModeCooldown();
+        StartCoroutine(snailCooldown);
+        _powerDownSound.PlayOneShot(_powerDownSound.clip);
+    }
 }
