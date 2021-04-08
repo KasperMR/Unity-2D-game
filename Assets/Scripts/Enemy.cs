@@ -6,18 +6,18 @@ public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private float _speed = 4;
+    protected float _speed = 4;
     [SerializeField]
-    private int _scoreValue = 10;
+    protected int _scoreValue = 10;
     [SerializeField]
     private bool _finishedAnimating = false;
     [SerializeField]
-    private GameObject _enemyLaser;
-    private bool _alive = true;
+    protected GameObject _enemyLaser;
+    protected bool _alive = true;
 
     private void Start()
     {
-        StartCoroutine(FireLaser());
+        StartCoroutine(FireLaserRoutine());
         StartCoroutine(LateralMovementRoutine());
     }
 
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected void OnTriggerEnter2D(Collider2D other)
     {
         Animator animator = gameObject.GetComponent<Animator>();
         if (other.CompareTag("Laser"))
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
         }
     }
    
-    private IEnumerator FireLaser()
+    private IEnumerator FireLaserRoutine()
     {
         while (_alive)
         {
@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator LateralMovementRoutine()
     {
         float lateralMovementSpeed = _speed * 2;
-        while (true)
+        while (_alive)
         {
             yield return new WaitForSeconds(1f);
             if (Random.Range(0f,1f) > 0.5f)

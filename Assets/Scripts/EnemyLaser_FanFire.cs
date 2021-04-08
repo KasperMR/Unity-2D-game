@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLaser : MonoBehaviour
+public class EnemyLaser_FanFire : EnemyLaser
 {
     [SerializeField]
     private float _speed = 8;
@@ -16,19 +16,11 @@ public class EnemyLaser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed*Time.deltaTime);
+        transform.Translate(transform.up * _speed*Time.deltaTime*-1);
         if (transform.position.y < maxHeight)
         {
             Destroy(this.gameObject);
         }
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<Player>().TakeDamage();
-            Destroy(gameObject);
-        }
-    }
 }
