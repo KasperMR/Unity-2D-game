@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected GameObject _enemyLaser;
     protected bool _alive = true;
+    [SerializeField]
+    protected bool _shielded = false;
 
     private void Start()
     {
@@ -36,6 +38,10 @@ public class Enemy : MonoBehaviour
         Animator animator = gameObject.GetComponent<Animator>();
         if (other.CompareTag("Laser"))
         {
+            if (_shielded)
+            {
+                return;
+            }
             _speed = 0;
             animator.SetTrigger("EnemyDeath");
             Destroy(other.gameObject);            

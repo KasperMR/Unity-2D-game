@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _fanFireEnemy;
     [SerializeField]
+    private GameObject _shieldedEnemy;
+    [SerializeField]
     private float _spawnCooldown = 1;
     [SerializeField]
     private GameObject _enemyContainer;
@@ -132,6 +134,10 @@ public class SpawnManager : MonoBehaviour
             else if (rng < 95)
             {
                 waveArray[i] = _powerUpPrefab[6]; //snail powerdown
+            }
+            else if (rng < 100)
+            {
+                waveArray[i] = _shieldedEnemy;
             }
 
 
