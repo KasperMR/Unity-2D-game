@@ -1061,6 +1061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemy: {fileID: 480045298860355939, guid: 910030f87ae651e47b30d03b6635f93c, type: 3}
   _fanFireEnemy: {fileID: 5059722101493318556, guid: 4dc882bbebdb8b640bf82b855fa2506e, type: 3}
+  _shieldedEnemy: {fileID: 480045298860355939, guid: aa33d2ab2503ccf4690aa6a8385baebf, type: 3}
   _spawnCooldown: 1
   _enemyContainer: {fileID: 1699353622}
   _timeBetweenWaves: 5

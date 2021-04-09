@@ -17,19 +17,37 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     protected bool _shielded = false;
 
+    private Transform _playerTransform;
+
     private void Start()
     {
         StartCoroutine(FireLaserRoutine());
         StartCoroutine(LateralMovementRoutine());
+        if (GameObject.FindGameObjectWithTag("Player").transform != null)
+        {
+            _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * Time.deltaTime * _speed);
+
         if (transform.position.y < -5.25f)
         {
             transform.position = new Vector3(Random.Range(-9f, 9f), 7.25f, 0);
+        }
+        if (_playerTransform != null)
+        {
+            if (Vector3.SqrMagnitude(transform.position - _playerTransform.position) < 3*3)  //2^2 = 4 actual distance
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _playerTransform.position, Time.deltaTime * _speed);
+                transform.up = transform.position - _playerTransform.position;
+            }
+            else
+            {
+                transform.Translate(Vector3.down * Time.deltaTime * _speed);
+            }
         }
     }
 
@@ -110,9 +128,11 @@ public class Enemy : MonoBehaviour
                         yield return null;
                     }
                 }
-
+                
             }
         }
     }
+
+    
 
 }
