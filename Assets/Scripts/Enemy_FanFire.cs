@@ -13,8 +13,9 @@ public class Enemy_FanFire : Enemy
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = new Vector3(transform.position.x, 4.5f, transform.position.z);
         StartCoroutine(FanFireLaserRoutine());
-        StartCoroutine(LeftAndRightRoutine());
+        StartCoroutine(LeftAndRightRoutine());        
     }
 
     // Update is called once per frame
