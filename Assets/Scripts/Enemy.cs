@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField]
     protected float _speed = 4;
+    private float _lateralMovementSpeed;
     [SerializeField]
     protected int _scoreValue = 10;
     [SerializeField]
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
 
     protected void Start()
     {
+        _lateralMovementSpeed = _speed * 2;
         StartCoroutine(FireLaserRoutine());
         StartCoroutine(LateralMovementRoutine());
         if (GameObject.FindGameObjectWithTag("Player") != null)
@@ -53,6 +55,10 @@ public class Enemy : MonoBehaviour
             {                
                 transform.up = Vector3.up;
             }
+            transform.Translate(transform.up * -1 * Time.deltaTime * _speed);
+        }
+        else //just let the enemies keep moving down the screen after game over
+        {
             transform.Translate(transform.up * -1 * Time.deltaTime * _speed);
         }
     }
@@ -112,35 +118,37 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator LateralMovementRoutine()
     {
-        float lateralMovementSpeed = _speed * 2;
+
         while (_alive)
         {
-            yield return new WaitForSeconds(1f);
-            if (Random.Range(0f,1f) > 0.5f)
+            yield return new WaitForSeconds(Random.Range(2f, 5f));
+            
+        }
+    }
+
+    protected IEnumerator Dodge()
+    {
+        Debug.Log("dodging");
+        if (transform.position.x > 0)
+        {
+            for (float t = 0; t < 1; t += Time.deltaTime)
             {
-                if (transform.position.x > 0)
+                if (_alive)
                 {
-                    for (float t = 0; t < 1; t += Time.deltaTime)
-                    {
-                        if (_alive)
-                        {
-                            transform.Translate(Vector3.left * lateralMovementSpeed * Time.deltaTime);
-                            yield return null;
-                        }
-                    }
+                    transform.Translate(Vector3.left * _lateralMovementSpeed * Time.deltaTime);
+                    yield return null;
                 }
-                else
+            }
+        }
+        else
+        {
+            for (float t = 0; t < 1; t += Time.deltaTime)
+            {
+                if (_alive)
                 {
-                    for (float t = 0; t < 1; t += Time.deltaTime)
-                    {
-                        if (_alive)
-                        {
-                            transform.Translate(Vector3.right * lateralMovementSpeed * Time.deltaTime);
-                            yield return null;
-                        }
-                    }
+                    transform.Translate(Vector3.right * _lateralMovementSpeed * Time.deltaTime);
+                    yield return null;
                 }
-                
             }
         }
     }

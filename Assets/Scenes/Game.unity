@@ -1063,6 +1063,7 @@ MonoBehaviour:
   _fanFireEnemy: {fileID: 5059722101493318556, guid: 4dc882bbebdb8b640bf82b855fa2506e, type: 3}
   _shieldedEnemy: {fileID: 480045298860355939, guid: aa33d2ab2503ccf4690aa6a8385baebf, type: 3}
   _rearGunnerEnemy: {fileID: 480045298860355939, guid: 59745d00363b242489ea9c7eee5321cb, type: 3}
+  _dodgerEnemy: {fileID: 480045298860355939, guid: 33aa922913cc0b54cae736e808724ec4, type: 3}
   _spawnCooldown: 1
   _enemyContainer: {fileID: 1699353622}
   _timeBetweenWaves: 5

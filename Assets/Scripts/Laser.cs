@@ -10,7 +10,12 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 20f, LayerMask.GetMask("Enemy"));
+        if (hit.collider != null)
+        {
+            hit.collider.gameObject.GetComponent<EnemyDodger>().TryToDodge();
+            Debug.Log("enemy detected");
+        }
     }
 
     // Update is called once per frame

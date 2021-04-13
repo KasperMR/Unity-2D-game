@@ -13,6 +13,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _rearGunnerEnemy;
     [SerializeField]
+    private GameObject _dodgerEnemy;
+    [SerializeField]
     private float _spawnCooldown = 1;
     [SerializeField]
     private GameObject _enemyContainer;
@@ -100,7 +102,7 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < waveSize; i++)
         {
-            int rng = Random.Range(0, 105); 
+            int rng = Random.Range(0, 110); 
             if (rng < 50)
             {
                 waveArray[i] = _enemy;
@@ -144,6 +146,10 @@ public class SpawnManager : MonoBehaviour
             else if (rng < 105)
             {
                 waveArray[i] = _rearGunnerEnemy;
+            }
+            else if (rng < 110)
+            {
+                waveArray[i] = _dodgerEnemy;
             }
 
 
