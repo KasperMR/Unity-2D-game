@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 480045298860355943}
-  - component: {fileID: 5032719757161356524}
   - component: {fileID: 6475833113673250070}
   - component: {fileID: 9042189271443794138}
   - component: {fileID: 7507555347362565578}
   - component: {fileID: 8675431187975472288}
   - component: {fileID: -2280929696243551256}
+  - component: {fileID: -6165001905068923373}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyRearGunner
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,24 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5032719757161356524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 480045298860355939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ab07fa3e486db469aa1fd1a028a300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 4
-  _scoreValue: 10
-  _finishedAnimating: 0
-  _enemyLaser: {fileID: 9073255154344939064, guid: 432fb178d5ae4de4998f89713e5904cc, type: 3}
-  _shielded: 0
-  _rotationSpeed: 0.1
 --- !u!212 &6475833113673250070
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -95,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3154912113cbb4a498df6f571c74e18c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.9431782, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -267,3 +249,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6165001905068923373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480045298860355939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b79cfdfb46debf4ba2f38050879cd95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 4
+  _scoreValue: 10
+  _finishedAnimating: 0
+  _enemyLaser: {fileID: 9073255154344939064, guid: 432fb178d5ae4de4998f89713e5904cc, type: 3}
+  _shielded: 0
+  _rearLaser: {fileID: 9073255154344939064, guid: 6fec733efd3485a43af22771ffd8d75b, type: 3}
+  _readyToFire: 1

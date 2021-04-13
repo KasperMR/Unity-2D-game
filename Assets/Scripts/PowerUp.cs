@@ -9,12 +9,28 @@ public class PowerUp : MonoBehaviour
 
     [SerializeField]
     [Tooltip("0 = tripleShot\n1 = speed\n2 = shield")]
-    private int typeOfPowerUp;
+    private int _typeOfPowerUp;
+    private bool _moveToPlayer;
+
+    [SerializeField]
+    private GameObject _explosion;
+
+    private Transform _playerTransform;
+
+    public bool shotAt = false;
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        if (_moveToPlayer)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _playerTransform.position, _speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
+
         if (transform.position.y < -6)
         {
             Destroy(gameObject);
@@ -37,7 +53,7 @@ public class PowerUp : MonoBehaviour
                 //    Debug.Log("give speed");
                 //    //player.ActivateTripleShot();
                 //}
-                switch (typeOfPowerUp)
+                switch (_typeOfPowerUp)
                 {
                     case 0:
                         player.ActivateTripleShot();
@@ -67,5 +83,23 @@ public class PowerUp : MonoBehaviour
             }
             Destroy(gameObject);
         }
+        if (collision.CompareTag("EnemyLaser"))
+        {
+            GameObject newExplosion = Instantiate(_explosion, transform.position, Quaternion.identity);
+            newExplosion.transform.localScale = Vector3.one * 0.2f;
+            Destroy(collision.gameObject);
+            Destroy(gameObject);
+        }
+    }
+
+    public void BeginMoveToPlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            _playerTransform = player.transform;
+        }
+        _moveToPlayer = true;
+
     }
 }

@@ -1062,6 +1062,7 @@ MonoBehaviour:
   _enemy: {fileID: 480045298860355939, guid: 910030f87ae651e47b30d03b6635f93c, type: 3}
   _fanFireEnemy: {fileID: 5059722101493318556, guid: 4dc882bbebdb8b640bf82b855fa2506e, type: 3}
   _shieldedEnemy: {fileID: 480045298860355939, guid: aa33d2ab2503ccf4690aa6a8385baebf, type: 3}
+  _rearGunnerEnemy: {fileID: 480045298860355939, guid: 59745d00363b242489ea9c7eee5321cb, type: 3}
   _spawnCooldown: 1
   _enemyContainer: {fileID: 1699353622}
   _timeBetweenWaves: 5
@@ -1473,7 +1474,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65732d2a30b5d7459235fcc6f91aa6f, type: 3}
+  m_Script: {fileID: 11500000, guid: 490be879c7b91534e87c5b9bc8a41c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &976144677

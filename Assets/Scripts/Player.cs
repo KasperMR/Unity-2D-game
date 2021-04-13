@@ -128,6 +128,11 @@ public class Player : MonoBehaviour
         {
             _laserCounter.GetComponent<LaserCounter>().OutOfAmmoAnimControl();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PullInPowerUps();
+        }
     }
 
     private void Movement()
@@ -153,7 +158,7 @@ public class Player : MonoBehaviour
             transform.position = pos;
         }
 
-        //wrap the player if they go too far left or right
+        //warp the player if they go too far left or right
         if (transform.position.x > 10.5f || transform.position.x < -10.5f)
         {
             pos.x = pos.x * -1;
@@ -381,5 +386,14 @@ public class Player : MonoBehaviour
         snailCooldown = SnailModeCooldown();
         StartCoroutine(snailCooldown);
         _powerDownSound.PlayOneShot(_powerDownSound.clip);
+    }
+
+    private void PullInPowerUps()
+    {
+        GameObject[] pickUps = GameObject.FindGameObjectsWithTag("PowerUp");
+        foreach (GameObject pickUp in pickUps)
+        {
+            pickUp.GetComponent<PowerUp>().BeginMoveToPlayer();
+        }
     }
 }

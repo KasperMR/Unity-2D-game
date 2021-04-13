@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyLaser : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 8;
-    private float maxHeight = -8;
+    protected float _speed = 8;
+    protected float maxHeight = -8;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +16,7 @@ public class EnemyLaser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * _speed*Time.deltaTime);
+        transform.Translate(transform.up*-1* _speed*Time.deltaTime);
         if (transform.position.y < maxHeight)
         {
             Destroy(this.gameObject);

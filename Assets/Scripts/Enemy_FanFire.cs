@@ -11,7 +11,7 @@ public class Enemy_FanFire : Enemy
     private GameObject newLaser;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
         transform.position = new Vector3(transform.position.x, 4.5f, transform.position.z);
         StartCoroutine(FanFireLaserRoutine());
@@ -19,7 +19,7 @@ public class Enemy_FanFire : Enemy
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
         return;
     }

@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class RearLaser : EnemyLaser
 {
-    [SerializeField]
-    private float _speed = 8;
-    protected float maxHeight = 8; 
+    //new protected float maxHeight = 8;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,10 +17,10 @@ public class Laser : MonoBehaviour
         transform.Translate(Vector3.up * _speed*Time.deltaTime);
         if (transform.position.y > maxHeight)
         {
-            if (transform.parent)
-            {
-                Destroy(transform.parent.gameObject);
-            }
+            //if (transform.parent)
+            //{
+            //    Destroy(transform.parent.gameObject);
+            //}
             Destroy(this.gameObject);
         }
     }
