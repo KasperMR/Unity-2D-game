@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  typeOfPowerUp: 1
+  _typeOfPowerUp: 1
   _explosion: {fileID: 63020881910872896, guid: f5434f1680edca54b985c351b7c5e40f, type: 3}
   shotAt: 0
 --- !u!95 &797398429242605359

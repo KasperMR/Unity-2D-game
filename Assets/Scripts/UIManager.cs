@@ -33,7 +33,10 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLives(int lives)
     {
-        _livesDisplay.sprite = _lives[lives];
+        if (lives >= 0)
+        {
+            _livesDisplay.sprite = _lives[lives];
+        }
         if (lives <= 0)
         {
             _restartText.SetActive(true);

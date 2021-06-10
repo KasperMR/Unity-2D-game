@@ -70,6 +70,9 @@ public class Enemy : MonoBehaviour
         {
             if (_shielded)
             {
+                _shielded = false;
+                Destroy(other.gameObject);
+                transform.GetChild(0).gameObject.SetActive(false);
                 return;
             }
             _speed = 0;

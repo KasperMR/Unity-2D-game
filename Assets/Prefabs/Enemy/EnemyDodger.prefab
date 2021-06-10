@@ -264,6 +264,6 @@ MonoBehaviour:
   _speed: 4
   _scoreValue: 10
   _finishedAnimating: 0
-  _enemyLaser: {fileID: 0}
+  _enemyLaser: {fileID: 9073255154344939064, guid: 432fb178d5ae4de4998f89713e5904cc, type: 3}
   _shielded: 0
   _rotationSpeed: 0.1

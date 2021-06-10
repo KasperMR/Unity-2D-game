@@ -366,6 +366,7 @@ public class Player : MonoBehaviour
 
     public void ActivateRockets()
     {
+        Debug.Log("Rockets enabled");
         _rocketsEnabled = true;
         if (rocketCooldown != null)
         {

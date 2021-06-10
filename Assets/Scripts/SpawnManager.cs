@@ -15,6 +15,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _dodgerEnemy;
     [SerializeField]
+    private GameObject _boss;
+
+    [SerializeField]
     private float _spawnCooldown = 1;
     [SerializeField]
     private GameObject _enemyContainer;
@@ -22,6 +25,8 @@ public class SpawnManager : MonoBehaviour
     private int _waveSize = 5;
     [SerializeField]
     private float _timeBetweenWaves = 5;
+    [SerializeField]
+    private int _bossWave = 10;
 
     [SerializeField]
     private GameObject[] _powerUpPrefab;
@@ -54,20 +59,31 @@ public class SpawnManager : MonoBehaviour
     }
 
     private IEnumerator SpawnEnemy()
-    {
+    {        
         while (_spawning)
         {
             GameObject[] waveArray = new GameObject[_waveSize];
-            GenerateNewWave(_waveSize, waveArray);
             int i = 0;
-            while (i < _waveSize)
+            if (_waveSize < _bossWave)
+            { 
+                GenerateNewWave(_waveSize, waveArray);
+            }
+            else if (_waveSize > _bossWave)
+            {
+                _waveSize = 1;
+                waveArray = new GameObject[_waveSize];
+                waveArray[0] = _boss;
+                _timeBetweenWaves = 9999;
+            }
+            
+            while (i < waveArray.Length)
             {            
                 GameObject newEnemy = Instantiate(waveArray[i], new Vector3(Random.Range(-9f, 9f), 7.25f, 0), Quaternion.identity);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 i++;
                 yield return new WaitForSeconds(_spawnCooldown);
             }
-            _waveSize = (_waveSize + (int)((float)_waveSize*1.5));
+            _waveSize = ((int)((float)_waveSize*1.5));
             yield return new WaitForSeconds(_timeBetweenWaves);
         }
     } 
